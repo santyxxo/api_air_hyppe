@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllTenis, addTenis, updateTenis, deleteTenis } from '../controllers/tenisController.js';
+import { getAllTenis, addTenis, updateTenis, deleteTenis } from '../controllers/tenisControllers.js';
 
 const router = express.Router();
 
