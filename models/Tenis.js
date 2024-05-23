@@ -13,6 +13,9 @@ const Tenis = sequelize.define('tenis', {
   },
   cantidad: {
     type: Sequelize.INTEGER
+  },
+  precio: {
+    type: Sequelize.FLOAT
   }
 });
 

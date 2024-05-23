@@ -10,9 +10,9 @@ export const getAllTenis = async (req, res) => {
 };
 
 export const addTenis = async (req, res) => {
-  const { nombre, marca, tallas, cantidad } = req.body;
+  const { nombre, marca, tallas, cantidad, precio } = req.body;
   try {
-    const newTenis = await Tenis.create({ nombre, marca, tallas, cantidad });
+    const newTenis = await Tenis.create({ nombre, marca, tallas, cantidad, precio });
     res.status(201).json(newTenis);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -20,10 +20,10 @@ export const addTenis = async (req, res) => {
 };
 
 export const updateTenis = async (req, res) => {
-  const { nombre, marca, tallas, cantidad } = req.body;
+  const { nombre, marca, tallas, cantidad, precio } = req.body;
   const id = req.params.id;
   try {
-    const [updatedRows] = await Tenis.update({ nombre, marca, tallas, cantidad }, { where: { id } });
+    const [updatedRows] = await Tenis.update({ nombre, marca, tallas, cantidad, precio }, { where: { id } });
     if (updatedRows === 0) {
       res.status(404).json({ message: 'Tenis no encontrado' });
     } else {
