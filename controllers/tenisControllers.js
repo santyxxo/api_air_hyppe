@@ -2,7 +2,20 @@ import Tenis from '../models/Tenis.js';
 
 export const getAllTenis = async (req, res) => {
   try {
-    const tenis = await Tenis.findAll();
+    const tenis = await Tenis.find();
+    res.json(tenis);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getTenis = async (req, res) => {
+  try {
+    const tenis = await Tenis.findById(req.params.id);
+    if (!tenis) {
+      res.status(404).json({ message: 'Tenis no encontrado' });
+      return;
+    }
     res.json(tenis);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -10,9 +23,9 @@ export const getAllTenis = async (req, res) => {
 };
 
 export const addTenis = async (req, res) => {
-  const { nombre, marca, tallas, cantidad, precio } = req.body;
   try {
-    const newTenis = await Tenis.create({ nombre, marca, tallas, cantidad, precio });
+    const newTenis = new Tenis(req.body);
+    await newTenis.save();
     res.status(201).json(newTenis);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -20,15 +33,14 @@ export const addTenis = async (req, res) => {
 };
 
 export const updateTenis = async (req, res) => {
-  const { nombre, marca, tallas, cantidad, precio } = req.body;
   const id = req.params.id;
   try {
-    const [updatedRows] = await Tenis.update({ nombre, marca, tallas, cantidad, precio }, { where: { id } });
-    if (updatedRows === 0) {
+    const tenis = await Tenis.findByIdAndUpdate(id, req.body);
+    if (!tenis) {
       res.status(404).json({ message: 'Tenis no encontrado' });
-    } else {
-      res.json({ message: 'Tenis actualizado correctamente' });
+      return;
     }
+    res.json({ message: 'Tenis actualizado correctamente' });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -37,12 +49,12 @@ export const updateTenis = async (req, res) => {
 export const deleteTenis = async (req, res) => {
   const id = req.params.id;
   try {
-    const deletedRows = await Tenis.destroy({ where: { id } });
-    if (deletedRows === 0) {
+    const tenis = await Tenis.findByIdAndDelete(id);
+    if (!tenis) {
       res.status(404).json({ message: 'Tenis no encontrado' });
-    } else {
-      res.json({ message: 'Tenis eliminado correctamente' });
+      return;
     }
+    res.json({ message: 'Tenis eliminado correctamente' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

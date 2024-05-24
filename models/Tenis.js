@@ -1,22 +1,28 @@
-import { Sequelize } from 'sequelize';
-import sequelize from '../config/dbConfig.js';
+import mongoose from 'mongoose';
 
-const Tenis = sequelize.define('tenis', {
+const tenisSchema = new mongoose.Schema({
   nombre: {
-    type: Sequelize.STRING
+    type: String,
+    required: true
   },
   marca: {
-    type: Sequelize.STRING
+    type: String,
+    required: true
   },
   tallas: {
-    type: Sequelize.STRING
+    type: String,
+    required: true
   },
   cantidad: {
-    type: Sequelize.INTEGER
+    type: Number,
+    required: true
   },
   precio: {
-    type: Sequelize.FLOAT
+    type: Number,
+    required: true
   }
 });
+
+const Tenis = mongoose.model('Tenis', tenisSchema);
 
 export default Tenis;
